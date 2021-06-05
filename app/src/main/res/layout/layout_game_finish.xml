@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end"
+    android:background="#80000000"
+    android:id="@+id/finishLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:screenOrientation="portrait">
+
+
+    <TextView
+        android:textSize="60sp"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:id="@+id/label_gameOver"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="GAME OVER"
+        android:layout_weight="1.1" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8">
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4" />
+
+        <TextView
+            android:id="@+id/textView_FinalScore"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end"
+            android:text="9999"
+            android:textColor="#ffffff"
+            android:textSize="66sp" />
+
+        <LinearLayout
+            android:layout_gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0">
+            <TextView android:textSize="30sp"
+                android:textColor="#ffffff"
+                android:gravity="top|bottom|end"
+                android:layout_gravity="top|bottom|center_vertical|fill_vertical|center|fill"
+                android:id="@+id/label_bestScore"
+                android:layout_width="match_parent" android:layout_height="match_parent" android:text="BEST" android:layout_weight="1.0"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp" />
+
+            <TextView android:textSize="40sp"
+                android:textColor="#ffffff"
+                android:gravity="top|center|end"
+                android:layout_gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end"
+                android:id="@+id/textView_bestScore" android:layout_width="match_parent" android:layout_height="match_parent"
+                android:text="0" android:layout_weight="1.0" />
+        </LinearLayout>
+        <Space android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="0.4" />
+    </LinearLayout>
+
+    <LinearLayout android:layout_gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end"
+        android:orientation="vertical" android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_marginTop="10dp" android:layout_weight="0.98">
+
+        <Button
+            android:textColor="@drawable/bg_button_color"
+            android:gravity="center"
+            android:layout_gravity="top|bottom|center"
+            android:id="@+id/button_restart"
+            android:background="@drawable/bg_button" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Try Again" android:onClick="restart"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            android:layout_marginTop="40dp"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
