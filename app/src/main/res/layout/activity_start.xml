@@ -14,24 +14,24 @@
 
     <TextView
         android:layout_marginTop="100dp"
-        android:text="NumberCatch"
+        android:text="@string/numbercatch"
         android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:id="@+id/textView"
-        android:textSize="50dp"/>
+        android:textSize="50sp"/>
 
     <Button
-        android:text="Start"
+        android:id="@+id/start_btn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="124dp"
-        android:id="@+id/button"
-        android:textSize="50dp"
         android:background="@color/colorPrimary"
+        android:text="@string/start"
         android:textColor="@android:color/background_light"
-        android:onClick="start" />
+        android:textSize="50sp"
+        />
 </RelativeLayout>
