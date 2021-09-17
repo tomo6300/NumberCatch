@@ -2,7 +2,6 @@ package com.yagi.android.numbercatch
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,9 +17,7 @@ class FinishActivity : AppCompatActivity() {
         score = i.getIntExtra("score", 0)
         finalScoreText = findViewById<View>(R.id.textView_FinalScore) as TextView
         bestScoreText = findViewById<View>(R.id.textView_bestScore) as TextView
-        Log.d("intent2", score.toString())
         finalScoreText!!.text = score.toString()
-        Log.d("text", finalScoreText.toString())
         val mHighScorePref = getSharedPreferences("NumberCatch", 0)
         val highScore = mHighScorePref.getInt("BEST SCORE", 0)
         if (highScore < score) {
@@ -33,7 +30,7 @@ class FinishActivity : AppCompatActivity() {
         }
     }
 
-    fun restart(v: View?) {
+    fun restart() {
         val i = Intent(this, MainActivity::class.java)
         startActivity(i)
         finish()

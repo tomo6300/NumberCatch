@@ -14,18 +14,20 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.text.TextPaint
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
+import android.graphics.RectF
+import kotlin.math.max
+
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
     var gameView: GameView? = null
     var sensorManager: SensorManager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val surfaceView = findViewById<SurfaceView>(R.id.SurfaceViewMain)
-        gameView = GameView(this, surfaceView)
+        findViewById<SurfaceView>(R.id.SurfaceViewMain)
+        gameView = GameView(this)
         setContentView(gameView)
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         if (id == R.id.menu_restart) {
             gameView!!.thread!!.interrupt()
             val alertDlg = AlertDialog.Builder(this)
-            alertDlg.setTitle("終了しますか？")
+            alertDlg.setTitle("ゲームをリスタートしますか？")
             alertDlg.setMessage("プレイ中の記録は戻らなくなります")
             alertDlg.setPositiveButton(
                 "はい"
@@ -77,14 +79,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent) {
         if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
-            Log.d(
-                "SensorValues", """
-     
-     X軸:${event.values[0]}
-     Y軸${event.values[1]}
-     Z軸${event.values[2]}
-     """.trimIndent()
-            )
             if (gameView!!.player != null) {
                 gameView!!.player!!.move(-event.values[0])
             }
@@ -92,7 +86,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
-    inner class GameView(context: Context?, sv: SurfaceView?) : SurfaceView(context),
+    inner class GameView(context: Context?) : SurfaceView(context),
         SurfaceHolder.Callback, Runnable {
         var screenWidth = 0
         var screenHeight = 0
@@ -142,6 +136,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 canvas.drawColor(Color.WHITE)
                 val catchPaint = Paint()
                 val lifePaint = Paint()
+                val lifeBackPaint = Paint()
                 catchPaint.textSize = 120f
                 lifePaint.textSize = 100f
                 canvas.drawText(score.toString(), player!!.x, player!!.y, catchPaint)
@@ -180,7 +175,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                             numbers[`in`]!!.reset(`in`)
                             counter++
                         } else if (numbers[`in`]!!.y > screenHeight) {
-                            life -= fallingNumbers[`in`]
+                            life = max(life - fallingNumbers[`in`], 0)
                             numbers[`in`]!!.reset(`in`)
                         } else {
                             numbers[`in`]!!.update()
@@ -191,10 +186,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 for (paint in textPaint) {
                     paint!!.isFakeBoldText = true
                 }
-                if (life <= 0) {
-                    life = 0
+                val rectF = RectF(0F, 0F, screenWidth.toFloat(), 200F)
+                lifeBackPaint.setColor(Color.rgb(240, 240, 240))
+                canvas.drawRect(rectF, lifeBackPaint)
+                if (life <= 100){
                     lifePaint.color = Color.RED
-                    canvas.drawText("LIFE:" + 0, 50f, 150f, lifePaint)
+                }
+                canvas.drawText("LIFE:$life", 50f, 135f, lifePaint)
+                if (life == 0) {
                     canvas.drawText(
                         "Game Over",
                         (screenWidth / 3).toFloat(),
@@ -203,15 +202,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                     )
                     surfaceHolder!!.unlockCanvasAndPost(canvas)
                     val i = Intent(mMainActivity, FinishActivity::class.java)
-                    Log.d("intent", score.toString())
                     i.putExtra("score", score)
                     startActivity(i)
                     break
-                } else if (life <= 100) {
-                    lifePaint.color = Color.RED
-                    canvas.drawText("LIFE:$life", 50f, 150f, lifePaint)
-                } else {
-                    canvas.drawText("LIFE:$life", 50f, 150f, lifePaint)
                 }
                 surfaceHolder!!.unlockCanvasAndPost(canvas)
                 try {
